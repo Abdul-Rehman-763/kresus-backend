@@ -62,6 +62,8 @@ app.post("/userVerify",userVerify);
  *         description: Unauthorized
  */
 
-
+app.get("/userCode",(req,res)=>{
+    res.status(200).send({message:"userCode endpoint is working"})
+});
 app.post("/userCode",authenticateToken,userCode)
 module.exports = app;
