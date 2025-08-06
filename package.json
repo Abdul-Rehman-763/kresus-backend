@@ -16,6 +16,7 @@
     "mongodb": "^6.18.0",
     "mongoose": "^8.17.0",
     "nodemon": "^3.1.10",
+    "serverless-http": "^3.2.0",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.1"
   }
