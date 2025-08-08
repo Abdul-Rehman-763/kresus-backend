@@ -1,17 +1,33 @@
-const jwt=require('jsonwebtoken');
+const jwt = require('jsonwebtoken');
+const User = require('../module/user');
 require("dotenv").config();
-const authenticateToken = (req, res, next) => {
-    const token=req.headers['authorization'].split(" ")[1]
-    if (!token) {
-        return res.status(401).json({ message: 'token is missing' });
-    }
-    const verify=jwt.verify(token, process.env.JWT_SECRET)
-    console.log(verify);
-    if (!verify) {
-        return res.status(403).json({ message: 'Invalid token' });  
-    }
-    req.user=verify
+const authenticateToken = async(req, res, next) => {
+    try {
+        const authHeader = req.headers['authorization'];
+        if (!authHeader) {
+           return res.status(401).json({ message: 'Authorization header missing' });
+        }
+        const token = authHeader.split(' ')[1];
+        console.log('token', token  );
+            if(!token) {
+            return res.status(401).json({ message: ' token' });
+        }
+        const verify = jwt.verify(token, process.env.JWT_SECRET)
+        console.log('this is ',verify);
+        if (!verify) {
+            return res.status(403).json({ message: 'Invalid token' });
+        }
+        const user=await User.findOne({ email: verify.email });
+        req.user = user
+        console.log(user);
         next();
+        
+    } catch (error) {
+        console.error('Error in authentication middleware:', error);
+        return res.status(500).json({ message: 'Internal server error' });
+
     }
-    module.exports = authenticateToken;
+}
+
+module.exports = authenticateToken;
 

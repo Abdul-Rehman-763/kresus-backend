@@ -2,6 +2,7 @@ const express = require('express');
 const app=express.Router();
 const authenticateToken = require('../middelware/authentication');
 const {userVerify,userCode} = require('../controller/user');
+const {validateUserVerify}=require("../middelware/joi");
 /**
  * @swagger
  * /user/userVerify:
@@ -19,7 +20,7 @@ const {userVerify,userCode} = require('../controller/user');
  *             properties:
  *               email:
  *                 type: string
- *                 example: "ali@gmail.com"
+ *                 example: "umer@gmail.com"
  *     responses:
  *       200:
  *         description: User verified successfully
@@ -29,20 +30,15 @@ const {userVerify,userCode} = require('../controller/user');
  *         description: Server error
  */
 
-app.post("/userVerify",userVerify);
+app.post("/userVerify",validateUserVerify,userVerify);
 
 /**
  * @swagger
  * /user/userCode:
  *   post:
  *     summary: Send a verification code to the user
- *     parameters:
- *       - in: header
- *         name: Authorization
- *         required: true
- *         schema:
- *           type: string
- *         description: Bearer token for authentication
+ *     security:
+ *       - bearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -50,17 +46,18 @@ app.post("/userVerify",userVerify);
  *           schema:
  *             type: object
  *             required:
- *               - email
+ *               - code
  *             properties:
- *               email:
+ *               code:
  *                 type: string
- *                 example: noor@example.com
+ *                 example: "123456"
  *     responses:
  *       200:
  *         description: Code sent successfully
  *       401:
  *         description: Unauthorized
  */
+
 
 app.get("/userCode",(req,res)=>{
     res.status(200).send({message:"userCode endpoint is working"})

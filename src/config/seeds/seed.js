@@ -1,9 +1,9 @@
-const User=require("../../modulels/user");
+const User=require("../../module/user");
 exports.seed=async()=>{
     try {
-        const email= "ali@gmail.com";
+        const email= "umer@gmail.com";
         const code= "123456";
-        const user = await User.findone({ email: email });
+        const user = await User.findOne({ email: email });
         if (!user) {  
             await User.create({
                 email: email,
@@ -11,6 +11,7 @@ exports.seed=async()=>{
             });
             console.log("User seeded successfully");
         }
+        console.log("User already exists, skipping seed");
         return user
         
     } catch (error) {
