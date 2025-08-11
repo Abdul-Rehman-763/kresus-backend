@@ -1,8 +1,8 @@
 const User=require("../../module/user");
 exports.seed=async()=>{
     try {
-        const email= "umer@gmail.com";
-        const code= "123456";
+        const email= "hassan@gmail.com";
+        const code= "112233";
         const user = await User.findOne({ email: email });
         if (!user) {  
             await User.create({
