@@ -29,7 +29,7 @@ const options = {
   }
 ]
     },
-    apis: ['./src/routers/user.js','./src/routers/chains.js']
+    apis: ['./src/docs/*.js']
 };
 exports.specs = sweggerJSdocs(options);
 exports.sweggerUi = sweggerUi;

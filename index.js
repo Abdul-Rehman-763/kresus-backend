@@ -10,19 +10,15 @@ const {specs,sweggerUi}=require('./src/config/swagger');
 const app=express();
 const allowedOrigins = [
   'http://localhost:5000',
-  'https://d754523f031a.ngrok-free.app'
+  'https://d754523f031a.ngrok-free.app',
+  '*'
 ];
 
 app.use(cors({
-  origin: function (origin, callback) {
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
-  credentials: true
-}));
+  origin: allowedOrigins,
+   credentials: true
+  }
+ ))
 
 app.use(express.json());
 app.use((req, res, next) => {

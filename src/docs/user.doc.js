@@ -1,8 +1,4 @@
-const express = require('express');
-const app=express.Router();
-const authenticateToken = require('../middelware/authentication');
-const {userVerify,userCode} = require('../controller/user');
-const {validateUserVerify}=require("../middelware/joi");
+
 /**
  * @swagger
  * /user/userVerify:
@@ -30,11 +26,29 @@ const {validateUserVerify}=require("../middelware/joi");
  *         description: Server error
  */
 
-app.post("/userVerify",validateUserVerify,userVerify);
 
-
-app.get("/userCode",(req,res)=>{
-    res.status(200).send({message:"userCode endpoint is working"})
-});
-app.post("/userCode",authenticateToken,userCode)
-module.exports = app;
+/**
+ * @swagger
+ * /user/userCode:
+ *   post:
+ *     summary: Send a verification code to the user
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - code
+ *             properties:
+ *               code:
+ *                 type: string
+ *                 example: "123456"
+ *     responses:
+ *       200:
+ *         description: Code sent successfully
+ *       401:
+ *         description: Unauthorized
+ */
