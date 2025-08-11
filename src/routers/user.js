@@ -3,32 +3,6 @@ const app=express.Router();
 const authenticateToken = require('../middelware/authentication');
 const {userVerify,userCode} = require('../controller/user');
 const {validateUserVerify}=require("../middelware/joi");
-/**
- * @swagger
- * /user/userVerify:
- *   post:
- *     summary: Verify a user by email and verification code
- *     description: Checks if a user with the given email and code exists.
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             required:
- *               - email
- *             properties:
- *               email:
- *                 type: string
- *                 example: "umer@gmail.com"
- *     responses:
- *       200:
- *         description: User verified successfully
- *       400:
- *         description: Invalid email
- *       500:
- *         description: Server error
- */
 
 app.post("/userVerify",validateUserVerify,userVerify);
 
