@@ -19,20 +19,17 @@ const options = {
         },
          security: [
       {
-        bearerAuth: []  // ✅ THIS IS REQUIRED to activate "Authorize" button
+        bearerAuth: []  
       }
     ],
-        servers: [
-            {
-                url: `http://localhost:5000`
-            },
-            {
-                url: 'https://cdb3f96c5a7a.ngrok-free.app',
-                description: 'ngrok tunnel'
-            }
-        ]
+      servers: [
+  {
+    url: 'https://d754523f031a.ngrok-free.app',
+    description: 'ngrok tunnel'
+  }
+]
     },
-    apis: ['./src/routers/user.js']
+    apis: ['./src/routers/user.js','./src/routers/chains.js']
 };
 exports.specs = sweggerJSdocs(options);
 exports.sweggerUi = sweggerUi;

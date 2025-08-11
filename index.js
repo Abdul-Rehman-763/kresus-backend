@@ -8,34 +8,27 @@ const  route = require('./src/routers/user');
 const chain=require('./src/routers/chains')
 const {specs,sweggerUi}=require('./src/config/swagger');
 const app=express();
-const corsOptions = {
-  origin: [
-    'http://localhost:5000', // Your local dev
-    'https://cdb3f96c5a7a.ngrok-free.app', // Current ngrok URL
-  ],
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
-  credentials: true
-};
-app.use(express.json());
+const allowedOrigins = [
+  'http://localhost:5000',
+  'https://d754523f031a.ngrok-free.app'
+];
+
 app.use(cors({
-  origin : "*",  // Reflects the request origin;
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   credentials: true
 }));
- const haders=(req, res, next) => {
-  res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Methods', 'GET,HEAD,OPTIONS,POST,PUT,DELETE');
-  res.header(
-    'Access-Control-Allow-Headers',
-    'Origin, X-Requested-With, Content-Type, Accept, Authorization'
-  );
-  res.header(
-    'Access-Control-Expose-Headers',
-    'Content-Disposition, access-token, refresh-token, date, signup-key, content-length, x-decompressed-content-length, Authorization'
-  );
+
+app.use(express.json());
+app.use((req, res, next) => {
+  console.log('Request Origin:', req.headers.origin);
   next();
-};
-app.use(haders)
+});
 seed();
 const port=process.env.PORT || 5000;
 
