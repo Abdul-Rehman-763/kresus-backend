@@ -49,6 +49,6 @@
  *     responses:
  *       200:
  *         description: Code sent successfully
- *       401:
+ *       400:
  *         description: Unauthorized
  */

@@ -37,13 +37,14 @@ exports.getAllWallets=async(req,res)=>{
         return Response.Send.Raw(res,resp.code,resp.body);
     })
   } catch (error) {
+    logger.logError(error,req.BaseData)
     throw error;
   }
 }
 
-exports.chainsHolding = async (req, res) => {
-    getSolanaTokens = await TokenList(types.solana_ecosystem);
-    getbaseTokens = await TokenList(types.base_ecosystem);
-    getwldToken = await TokenList(types.optimism_ecosystem);
-    return res.json(getSolanaTokens, getbaseTokens, getwldToken);
-}
+// exports.chainsHolding = async (req, res) => {
+//     getSolanaTokens = await TokenList(types.solana_ecosystem);
+//     getbaseTokens = await TokenList(types.base_ecosystem);
+//     getwldToken = await TokenList(types.optimism_ecosystem);
+//     return res.json(getSolanaTokens, getbaseTokens, getwldToken);
+// }
