@@ -31,3 +31,4 @@
 {"level":"info","message":{"data":{"email":"ali@gmail.com"},"method":"POST","route":"/user/userVerify"},"timestamp":"2025-08-13T11:40:54.810Z"}
 {"level":"info","message":{"data":{"email":"ali@gmail.com"},"method":"POST","route":"/user/userVerify"},"timestamp":"2025-08-13T11:40:58.107Z"}
 {"level":"info","message":{"data":{"email":"umais@gmail.com"},"method":"POST","route":"/user/userVerify"},"timestamp":"2025-08-13T11:41:02.250Z"}
+{"level":"info","message":{"data":{"email":"umer@gmail.com"},"method":"POST","route":"/user/userVerify"},"timestamp":"2025-08-20T15:14:21.158Z"}

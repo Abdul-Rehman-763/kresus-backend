@@ -2,6 +2,7 @@ const express = require('express');
 const dbConnect=require('./src/config/dbconnection')
 const cors=require('cors');
 
+
 require('dotenv').config();
 const {seed}=require('./src/config/seeds/seed');
 const  route = require('./src/routers/user');
@@ -13,7 +14,6 @@ const logger=require("./src/config/winston/logger")
 const app=express();
 const allowedOrigins = [
   'http://localhost:5000',
-  'https://9e550f388a7e.ngrok-free.app ',
   '*'
 ];
 
@@ -51,6 +51,7 @@ app.use('/user', route);
 app.use("/",chain);
 dbConnect();
 // node();
+
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
 });

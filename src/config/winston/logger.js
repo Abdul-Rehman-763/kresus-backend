@@ -12,7 +12,8 @@ const app = express();
 
 
 const customFormat = format.combine(
-  format.timestamp(),
+  format.timestamp({
+   format: 'YYYY-MM-DD hh:mm:ss.SSS A ZZ'}),
   format((info) => {
     if (app.currentRoute) {  // You need to track the route in middleware
       info.route = app.currentRoute;
@@ -74,7 +75,7 @@ function cleanErrorObject(error) {
   const ALWAYS_OMIT = [
     'socket', '_readableState', '_events', '_writableState',
     'rawHeaders', 'rawTrailers', 'res', 'client',
-    'next', 'baseUrl', '_parsedUrl', 'route', 
+    'next', 'baseUrl', '_parsedUrl', 'route','headers'
   ];
 
 
@@ -89,7 +90,7 @@ function cleanErrorObject(error) {
     'params',
     'query',
     'httpVersion',
-    'headers',
+    'header',
     'user-agent',
     'email',
     'details',
@@ -147,10 +148,9 @@ function cleanErrorObject(error) {
     'details',      // array of validation error details
     '_original'     // original object that failed validation
   ];
-  if (error) {
-    cleanedError.message = error
-  }
-
+ if (typeof error === 'string') {
+  cleanedError.message = error
+}
   // Basic error fields
   if (error instanceof Error || (error.message && error.stack)) {
     cleanedError.message = error.message;
@@ -189,6 +189,103 @@ logger.logError = function (error, BaseData = {}) {
     ...cleanedError,
     ...BaseData
   });
+  
 };
-
 module.exports = logger;
+
+
+
+
+
+// const { createLogger, format, transports } = require('winston');
+// const lodash = require('lodash');
+// const deepdash = require('deepdash');
+// const _ = deepdash(lodash); // lodash extended with deep search
+// const path = require('path')
+// const requestContext=require('./requestContext')
+// const express = require('express');
+
+// const app = express();
+
+
+// const customFormat = format.combine(
+//   format.timestamp({
+//      format: 'YYYY-MM-DD hh:mm:ss.SSS A ZZ'}),
+//   format((info) => {
+//     if (app.currentRoute) {  // You need to track the route in middleware
+//       info.route = app.currentRoute;
+
+//       console.log("this is logger js route testing", info.route)
+//     }
+//     return info;
+//   })(),
+
+//   format.json()
+// );
+// const levelFilter = (level) => {
+//   return format((info) => {
+//     return info.level === level ? info : false;
+//   })();
+// };
+
+// const Logger = createLogger({
+//   level: process.env.NODE_ENV === 'production' ? 'info' : 'debug',
+//   // format: format.combine(format.timestamp(), format.json()),
+//   format: customFormat,
+//   transports: [
+//     new transports.File({
+//       filename: path.join(__dirname, 'logs', 'responses.log'), format: format.combine(
+//         levelFilter('info'),
+//         // customFormat
+//       )
+//     }),
+//     new transports.File({
+//       filename: path.join(__dirname, 'logs', 'error.log'), format: format.combine(
+//         levelFilter('error'),  // keep only errors
+//         // customFormat           // still run your timestamp/route/json formatter
+//       )
+//     })
+//   ]
+// });
+
+
+
+// const originalErrorMethod = Logger.error.bind(Logger);
+
+// Logger.error = function (msgOrErr, maybeErrOrData = {}, extraData = {}) {
+//   let message = '';
+//   let errorObj = null;
+//   let baseData = {};
+
+//   // Case 1: first arg is a string, second arg is error/object
+//   if (typeof msgOrErr === 'string') {
+//     message = msgOrErr;
+//     if (maybeErrOrData instanceof Error || (maybeErrOrData && typeof maybeErrOrData === 'object')) {
+//       errorObj = maybeErrOrData;
+//       baseData = extraData || {};
+//     } else {
+//       baseData = maybeErrOrData || {};
+//     }
+//   } 
+//   // Case 2: first arg is Error or object
+//   else if (msgOrErr instanceof Error || (msgOrErr && typeof msgOrErr === 'object')) {
+//     errorObj = msgOrErr;
+//     baseData = maybeErrOrData || {};
+//   }
+
+//   const req = requestContext.getRequest();
+//   let routeinfo = {};
+//   if (req && req.path) {
+//     routeinfo.route = req.path;
+//   }
+//   const LogData=({
+//     message: message|| 'Error logged',
+//     ...errorObj,
+//     ...baseData,
+//     ...routeinfo
+//   });
+// return  originalErrorMethod(LogData)
+// };
+
+
+// module.exports = Logger;
