@@ -1,6 +1,8 @@
 const User = require("../module/user");
 const Chain = require('../module/chain')
 const wallet = require("../utility/wallet");
+const Moralis = require("moralis").default;
+require('dotenv').config();
 const logger = require('../config/winston/logger')
 const types = {
     solana_ecosystem: 'solana-ecosystem',
@@ -49,6 +51,28 @@ module.exports = {
             console.log(error);
             logger.logError(error, req.BaseData)
             return res.status(500).json(error);
+        }
+    },
+    papolarTokenList: async () => {
+
+        try {
+
+            async function getPriceMovers() {
+                await Moralis.start({ apiKey: process.env.MORALIS_API_KEY });
+                const response = await Moralis.EvmApi.marketData.getTopERC20TokensByPriceMovers();
+                console.log("Gainers:", response.raw.gainers);
+                console.log("Losers:", response.raw.losers);
+                return {
+                    code: 200, body: { heigher: response.raw.gainers ,lower:response.raw.losers}
+                }
+            }
+            const {code,body}=await getPriceMovers();
+            return{
+                code,body
+            }
+        }
+        catch (error) {
+
         }
     }
 }

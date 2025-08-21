@@ -41,6 +41,16 @@ exports.getAllWallets=async(req,res)=>{
     throw error;
   }
 }
+exports.papolarTokenList=async(req,res)=>{
+  try {
+    ChainService.papolarTokenList().then(resp=>{
+        return Response.Send.Raw(res,resp.code,resp.body);
+    })
+    
+  } catch (error) {
+    throw error
+  }
+}
 
 // exports.chainsHolding = async (req, res) => {
 //     getSolanaTokens = await TokenList(types.solana_ecosystem);

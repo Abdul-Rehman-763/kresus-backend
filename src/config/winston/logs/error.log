@@ -28,3 +28,6 @@ const KEYS_TO_EXTRACT_DEEPLY = [
   'isJoi', 'name', 'details', '_original', 'data'
 ];{"level":"error","message":{"method":"GET","request":{"message":"Authorization header missing"},"route":"/userWallets"},"timestamp":"2025-08-20T15:22:16.935Z"}
 {"level":"error","message":{"method":"GET","request":{"message":"Authorization header missing"},"route":"/userWallets"},"timestamp":"2025-08-20 08:23:47.343 PM +0500"}
+{"level":"error","message":{"method":"POST","request":{"code":400,"message":"Code must be 6 characters long"},"route":"/user/userCode"},"timestamp":"2025-08-20 08:26:29.515 PM +0500"}
+{"level":"error","message":{"method":"GET","request":{"message":"Authorization header missing"},"route":"/papolarTokens"},"timestamp":"2025-08-21 05:37:48.313 PM +0500"}
+{"level":"error","message":{"method":"GET","request":{"message":"Authorization header missing"},"route":"/papolarTokens"},"timestamp":"2025-08-21 05:38:02.312 PM +0500"}

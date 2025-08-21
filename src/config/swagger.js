@@ -24,7 +24,7 @@ const options = {
     ],
       servers: [
   {
-    url: 'https://9e550f388a7e.ngrok-free.app',
+    url: 'https://2053ff0dcd27.ngrok-free.app',
     url: 'http://localhost:5000',
     description: 'ngrok tunnel'
   }

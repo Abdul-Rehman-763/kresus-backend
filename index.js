@@ -14,6 +14,7 @@ const logger=require("./src/config/winston/logger")
 const app=express();
 const allowedOrigins = [
   'http://localhost:5000',
+  'https://2053ff0dcd27.ngrok-free.app',
   '*'
 ];
 
