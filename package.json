@@ -10,6 +10,7 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "@covalenthq/client-sdk": "^2.3.3",
     "@solana/web3.js": "^1.98.4",
     "cors": "^2.8.5",
     "deepdash": "^5.3.9",

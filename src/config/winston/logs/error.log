@@ -31,3 +31,10 @@ const KEYS_TO_EXTRACT_DEEPLY = [
 {"level":"error","message":{"method":"POST","request":{"code":400,"message":"Code must be 6 characters long"},"route":"/user/userCode"},"timestamp":"2025-08-20 08:26:29.515 PM +0500"}
 {"level":"error","message":{"method":"GET","request":{"message":"Authorization header missing"},"route":"/papolarTokens"},"timestamp":"2025-08-21 05:37:48.313 PM +0500"}
 {"level":"error","message":{"method":"GET","request":{"message":"Authorization header missing"},"route":"/papolarTokens"},"timestamp":"2025-08-21 05:38:02.312 PM +0500"}
+{"level":"error","message":"\"tokenAddress\" is required","method":"GET","request":{},"route":"/tokenDetail/0x7300b37dfdfab110d83290a29dfb31","timestamp":"2025-08-22 11:52:51.800 PM +0500"}
+{"level":"error","message":"\"tokenAddress\" is required","method":"GET","request":{},"route":"/tokenDetail/tyysgh","timestamp":"2025-08-22 11:54:22.308 PM +0500"}
+{"level":"error","message":"\"tokenAddress\" is required","method":"GET","request":{},"route":"/tokenDetail/0x7300b37dfdfab110d83290a29dfb31b1740219fe","timestamp":"2025-08-25 03:45:25.591 PM +0500"}
+{"level":"error","message":"\"tokenAddress\" is required","method":"GET","request":{},"route":"/tokenDetail/0xB29749498954A3A821ec37BdE86e386dF3cE30B6","timestamp":"2025-08-25 03:46:45.292 PM +0500"}
+{"level":"error","message":"Invalid token address format","method":"GET","request":{},"route":"/tokenDetail/0xB29749498954A3A821ec37BdE86e386dF3cE30B","timestamp":"2025-08-25 03:52:23.003 PM +0500"}
+{"level":"error","message":"Invalid token address format","method":"GET","request":{},"route":"/tokenDetail/0xB29749498954A3A821ec37BdE86e386dF3cE30B","timestamp":"2025-08-25 04:10:31.755 PM +0500"}
+{"level":"error","message":"Invalid token address format","method":"GET","request":{},"route":"/tokenDetail/0xB29749498954A3A821ec37BdE86e386dF3cE30B","timestamp":"2025-08-25 04:10:36.916 PM +0500"}

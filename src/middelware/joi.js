@@ -12,3 +12,21 @@ exports.validateUserVerify = (req, res, next) => {
     }
     next();
 }
+const tokenAddressSchema = joi.object({
+  address: joi.string()
+    .pattern(/^0x[a-fA-F0-9]{40}$/) // Ethereum address regex
+    .required()
+    .messages({
+      "string.pattern.base": "Invalid token address format",
+      "string.empty": "Token address is required"
+    })
+});
+
+exports.tokenDetailVerify=(req,res,next)=>{
+    const {error}=tokenAddressSchema.validate(req.params);
+    if(error){
+        logger.logError(error.details[0].message,req.BaseData);
+        return res.status(400).json({messege:error.details[0].message,status:false});
+    }
+    next();
+}
