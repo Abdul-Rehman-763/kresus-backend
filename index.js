@@ -13,6 +13,7 @@ const logger=require("./src/config/winston/logger")
 
 const app=express();
 const allowedOrigins = [
+  'http://13.213.72.15:5000',
   'http://localhost:5000',
   'https://64396e5e8685.ngrok-free.app',
   '*'
@@ -26,7 +27,11 @@ app.use(cors({
 
 app.use(express.json());
 seed();
-
+app.use((req,res)=>{
+   console.log('this is run');
+  res.send('helo world')
+ 
+})
 app.use((req, res, next) => {
   req.logMeta = {
     route: req.originalUrl || req.url,
