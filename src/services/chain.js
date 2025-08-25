@@ -6,6 +6,7 @@ require('dotenv').config();
 const logger = require('../config/winston/logger')
 const { getTokenDetails, tokenHistory } = require('../utility/covelent')
 Moralis.start({ apiKey: process.env.MORALIS_API_KEY });
+const popularTokenModule=require('../module/popularTokens')
 
 const types = {
     solana_ecosystem: 'solana-ecosystem',
@@ -56,22 +57,36 @@ module.exports = {
             return res.status(500).json(error);
         }
     },
-    papolarTokenList: async () => {
-
+    papolarTokenList: async (req) => {
         try {
             async function getPriceMovers() {
-
                 const response = await Moralis.EvmApi.marketData.getTopERC20TokensByPriceMovers();
                 // console.log("Gainers:", response.raw.gainers);
                 // console.log("Losers:", response.raw.losers);
+                if(response){
+                    await popularTokenModule.deleteMany({});
+                    const data=await popularTokenModule.create({higher:response.raw.gainers,lower:response.raw.losers});
+                    await data.save();
+                
                 return {
                     code: 200, body: { heigher: response.raw.gainers, lower: response.raw.losers }
                 }
             }
-            const { code, body } = await getPriceMovers();
-            return {
+
+            }
+            if(req.query.hardRefresh==="true"){
+            
+                const { code, body } = await getPriceMovers();
+                 return {
                 code, body
             }
+            }
+            const {higher,lower}=await popularTokenModule.findOne({});
+            
+            return {
+                    code: 200, body: { higher, lower,data:"data from db"}
+                }
+           
         }
         catch (error) {
             throw error
@@ -92,15 +107,13 @@ module.exports = {
             throw error
         }
     },
-    tokenGraph: async (req, res) => {
+    tokenGraph: async ({ address, from, end }) => {
+
         try {
-            const graphData = await tokenHistory(8453,
-                "0xcbB7C0000aB88B473b1f5aFd9ef808440eed33Bf",
-                "2024-07-01",
-                "2025-02-25")
+            const graphData = await tokenHistory(8453, address, from, end);
             return graphData
         } catch (error) {
-            return error
+            return error;
         }
     }
 }

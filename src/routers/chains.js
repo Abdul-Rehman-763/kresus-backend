@@ -6,7 +6,7 @@ const {tokenDetailVerify}=require('../middelware/joi')
 // app.get('/chains',chainsHolding);
 app.post('/wallet',authentication,generateWallet);
 app.get('/userWallets',authentication,getAllWallets);
-app.get('/papolarTokens',tokenDetailVerify,papolarTokenList);
+app.get('/papolarTokens',papolarTokenList);
 app.get('/tokenDetail/:address',tokenDetailVerify,tokenDetail)
 app.get('/tokenGraph',tokenGraph)
 module.exports=app

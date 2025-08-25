@@ -44,7 +44,8 @@ exports.getAllWallets = async (req, res) => {
 }
 exports.papolarTokenList = async (req, res) => {
   try {
-    ChainService.papolarTokenList().then(resp => {
+  
+    ChainService.papolarTokenList(req).then(resp => {
       return Response.Send.Raw(res, resp.code, resp.body);
     })
 
@@ -66,7 +67,7 @@ exports.tokenDetail = async (req, res) => {
 }
 exports.tokenGraph = async (req, res) => {
   try {
-    ChainService.tokenGraph().then(resp => {
+    ChainService.tokenGraph(req.body).then(resp => {
       res.json(resp)
     })
   } catch (error) {
