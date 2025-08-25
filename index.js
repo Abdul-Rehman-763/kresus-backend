@@ -27,11 +27,7 @@ app.use(cors({
 
 app.use(express.json());
 seed();
-app.use((req,res)=>{
-   console.log('this is run');
-  res.send('helo world')
- 
-})
+
 app.use((req, res, next) => {
   req.logMeta = {
     route: req.originalUrl || req.url,

@@ -9,4 +9,4 @@ app.get('/userWallets',authentication,getAllWallets);
 app.get('/papolarTokens',tokenDetailVerify,papolarTokenList);
 app.get('/tokenDetail/:address',tokenDetailVerify,tokenDetail)
 app.get('/tokenGraph',tokenGraph)
-module.exports=app;
+module.exports=app
