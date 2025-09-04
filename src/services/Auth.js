@@ -1,7 +1,7 @@
 const app = require('express');
 const User = require('../module/user');
 const { createToken } = require("../utility/jwt");
-const logger = require('../config/winston/logger');
+const logger = require('../utility/logger');
 module.exports = {
     userVerify: async (req, res) => {
         const { email } = req.body;
@@ -9,7 +9,7 @@ module.exports = {
 
             const user = await User.findOne({ email });
             if (!user) {
-                logger.logError({ message: 'User not found', code: 404 }, req.BaseData)
+               logger.error({ message: 'User not found', code: 404 }, req.BaseData)
                 return {
                     code: 404,
                     body: { message: 'User not found' }
@@ -23,7 +23,7 @@ module.exports = {
                 body: { message: 'User verified successfully', token }
             };
         } catch (error) {
-            logger.logError(error, req.BaseData);
+            logger.error(error, req.BaseData);
             throw error;
         }
     },
@@ -32,7 +32,7 @@ module.exports = {
             const { code } = req.body;
             const user = req.user;
             if (!code) {
-                logger.logError({
+               logger.error({
                     code: 400,
                     body: { message: 'Code is required' }
                 }, req.BaseData)
@@ -42,7 +42,7 @@ module.exports = {
                 }
             }
             if (code.length < 6) {
-                logger.logError({
+               logger.error({
                     code: 400,
                     body: { message: 'Code must be 6 characters long' }
                 }, req.BaseData)
@@ -53,7 +53,7 @@ module.exports = {
             }
 
             if (user.code !== code) {
-                logger.logError(
+               logger.error(
                     {
                         code: 400,
                         body: { message: 'Incorrect code' }

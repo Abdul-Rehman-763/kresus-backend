@@ -1,0 +1,9 @@
+{"level":"info","route":"/user/userVerify","timestamp":"2025-09-02 05:37:50.677 PM +0500"}
+{"level":"info","method":"POST","route":"/user/userVerify","timestamp":"2025-09-02 05:40:39.648 PM +0500"}
+{"level":"info","method":"POST","route":"/user/userVerify","timestamp":"2025-09-02 05:42:25.679 PM +0500"}
+{"body":{"email":"umais@gmail.com"},"level":"info","method":"POST","route":"/user/userVerify","timestamp":"2025-09-02 05:43:47.540 PM +0500"}
+{"body":{"email":"umais@gmail.com"},"level":"info","method":"POST","prams":{},"route":"/user/userVerify","timestamp":"2025-09-02 05:44:25.675 PM +0500"}
+{"body":{"email":"umais@gmail.com"},"level":"info","method":"POST","prams":{},"route":"/user/userVerify","timestamp":"2025-09-02 06:04:55.715 PM +0500"}
+{"body":"not body data exsist","level":"info","message":"","method":"GET","prams":{"address":"0xB29749498954A3A821ec37BdE86e386dF3cE30B6"},"query":{},"route":"/tokenDetail/0xB29749498954A3A821ec37BdE86e386dF3cE30B6","timestamp":"2025-09-02 06:47:57.288 PM +0500"}
+{"body":"not body data exsist","level":"info","message":"","method":"GET","prams":{"address":"0xB29749498954A3A821ec37BdE86e386dF3cE30B6"},"query":{"":"22"},"route":"/tokenDetail/0xB29749498954A3A821ec37BdE86e386dF3cE30B6?=22","timestamp":"2025-09-02 06:48:36.660 PM +0500"}
+{"body":"not body data exsist","level":"info","message":"","method":"GET","prams":{"address":"0xB29749498954A3A821ec37BdE86e386dF3cE30B6"},"query":{},"route":"/tokenDetail/0xB29749498954A3A821ec37BdE86e386dF3cE30B6","timestamp":"2025-09-04 05:49:39.778 PM +0500"}

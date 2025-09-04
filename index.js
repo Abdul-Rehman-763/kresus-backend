@@ -1,6 +1,7 @@
 const express = require('express');
 const dbConnect=require('./src/config/dbconnection')
 const cors=require('cors');
+const requestContext=require("./src/utility/requestContext")
 
 
 require('dotenv').config();
@@ -9,7 +10,7 @@ const  route = require('./src/routers/user');
 const chain=require('./src/routers/chains')
 const {specs,sweggerUi}=require('./src/config/swagger');
 const { node } = require('./src/config/nodemailer');
-const logger=require("./src/config/winston/logger")
+const logger=require("./src/utility/logger")
 
 const app=express();
 const allowedOrigins = [
@@ -26,24 +27,25 @@ app.use(cors({
  ))
 
 app.use(express.json());
+app.use(requestContext.middleware); 
 seed();
 
-app.use((req, res, next) => {
-  req.logMeta = {
-    route: req.originalUrl || req.url,
-    method: req.method,
-    data: req.body && Object.keys(req.body).length
-      ? req.body
-      : req.params && Object.keys(req.params).length
-        ? req.params
-        : req.query || {}
-  };
-  req.BaseData = {
-    route: req.originalUrl || req.url,
-    method: req.method,
-  };
-  next();
-});
+// app.use((req, res, next) => {
+//   req.logMeta = {
+//     route: req.originalUrl || req.url,
+//     method: req.method,
+//     data: req.body && Object.keys(req.body).length
+//       ? req.body
+//       : req.params && Object.keys(req.params).length
+//         ? req.params
+//         : req.query || {}
+//   };
+//   req.BaseData = {
+//     route: req.originalUrl || req.url,
+//     method: req.method,
+//   };
+//   next();
+// });
 const port=process.env.PORT || 5000;
 
 console.log(port);

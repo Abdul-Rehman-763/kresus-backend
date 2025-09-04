@@ -3,7 +3,7 @@ const Chain = require('../module/chain')
 const wallet = require("../utility/wallet");
 const Moralis = require("moralis").default;
 require('dotenv').config();
-const logger = require('../config/winston/logger')
+const logger = require('../utility/logger')
 const { getTokenDetails, tokenHistory } = require('../utility/covelent')
 Moralis.start({ apiKey: process.env.MORALIS_API_KEY });
 const popularTokenModule=require('../module/popularTokens')
@@ -21,7 +21,7 @@ module.exports = {
 
             const isWalletAddress = await Chain.findOne({ User: user._id })
             if (isWalletAddress) {
-                logger.logError({ code: 404, body: "already had user wallet address assgin" }, req.BaseData)
+                logger.error({ code: 404, body: "already had user wallet address assgin" }, req.BaseData)
                 return { code: 404, body: "already had user wallet address assgin" }
             }
             const walletAddress = wallet.solanaWallet();
@@ -53,7 +53,7 @@ module.exports = {
             return { code: 200, body: { WalletsData, status: true } }
         } catch (error) {
             console.log(error);
-            logger.logError(error, req.BaseData)
+            logger.error(error, req.BaseData)
             return res.status(500).json(error);
         }
     },
@@ -101,7 +101,7 @@ module.exports = {
             }
             console.log(chainId);
             const fetchData = await getTokenDetails(address, chainId);
-
+            logger.info()
             return fetchData;
         } catch (error) {
             throw error

@@ -38,7 +38,7 @@ exports.getAllWallets = async (req, res) => {
       return Response.Send.Raw(res, resp.code, resp.body);
     })
   } catch (error) {
-    logger.logError(error, req.BaseData)
+    logger.error(error, req.BaseData)
     throw error;
   }
 }

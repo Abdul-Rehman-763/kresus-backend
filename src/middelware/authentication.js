@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 const User = require('../module/user');
-const logger=require('../config/winston/logger')
+const logger=require('../utility/logger')
 require("dotenv").config()
 ;
 const authenticateToken = async(req, res, next) => {
