@@ -77,7 +77,7 @@ const getTokenDetails = async (contractAddress, chainId) => {
     total_supply: data.data.market_data.total_supply,
     image: data.data.image.small,
     maxSupply: data.data.market_data?.max_supply,
-    Holders
+    // Holders
   }
 
   return newData

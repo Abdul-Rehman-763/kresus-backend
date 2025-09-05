@@ -7,3 +7,4 @@
 {"level":"error","message":{"code":404,"message":"User not found"},"route":"/user/userVerify","timestamp":"2025-09-02 05:37:13.246 PM +0500"}
 {"body":{"email":"umer@gmail.com"},"level":"error","message":{"code":404,"message":"User not found"},"method":"POST","prams":{},"route":"/user/userVerify","timestamp":"2025-09-02 06:01:15.418 PM +0500"}
 {"body":{"email":""},"level":"error","message":"\"email\" is not allowed to be empty","method":"POST","prams":{},"route":"/user/userVerify","timestamp":"2025-09-02 06:05:40.139 PM +0500"}
+{"body":{"email":"umer@gmail.com"},"level":"error","message":{"code":404,"message":"User not found"},"method":"POST","prams":{},"query":{},"route":"/user/userVerify","timestamp":"2025-09-05 01:15:55.712 AM +0500"}
