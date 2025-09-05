@@ -4,7 +4,7 @@ require('dotenv').config()
 const ethers = require('ethers')
 
 const getHolderCount = async (chainId, contractAddress) => {
-  const url = `https://api.covalenthq.com/v1/${chainId}/tokens/${contractAddress}/token_holders_v2/?key=${process.env.COVALENT_API_KEY}`;
+  const url = `https://api.covalenthq.com/v1/${1}/tokens/${contractAddress}/token_holders_v2/?key=${process.env.COVALENT_API_KEY}`;
   const { data } = await axios.get(url);
 
   return data.data.pagination.total_count; // number of holders
@@ -66,7 +66,7 @@ const TokenDetail = async (chainId, contract_address) => {
 
 }
 const getTokenDetails = async (contractAddress, chainId) => {
-  const api = `https://api.coingecko.com/api/v3/coins/base/contract/${contractAddress}`;
+  const api = `https://api.coingecko.com/api/v3/coins/eth/contract/${contractAddress}`;
   const data = await axios.get(api);
   const Holders = await getHolderCount(chainId, contractAddress);
   const newData = {
@@ -101,4 +101,4 @@ const tokenHistory = async (chainId, tokenAddress, DATE1, DATE2, currency = "USD
 };
 
 
-module.exports = { totalsupply, TokenDetail, getTokenDetails ,tokenHistory}
+module.exports = { totalsupply, TokenDetail, getTokenDetails ,tokenHistory,getHolderCount}

@@ -6,7 +6,7 @@ const Axios = require('../utility/Axios')
 
 require('dotenv').config();
 const logger = require('../utility/logger')
-const { getTokenDetails, tokenHistory } = require('../utility/covelent')
+const { getTokenDetails, tokenHistory ,getHolderCount} = require('../utility/covelent')
 Moralis.start({ apiKey: process.env.MORALIS_API_KEY });
 const popularTokenModule = require('../module/popularTokens');
 const { papolarTokenList } = require("../controller/chains");
@@ -123,54 +123,57 @@ module.exports = {
 
 
     // },
-    // tokenDetail: async (address) => {
-    //     try {
-    //         let chainId;
-    //         if (address) {
-    //             const start = address.slice(0, 2)
-    //             start === '0x' ? (chainId = 8453) : null
-    //         }
-    //         console.log(chainId);
-    //         const fetchData = await getTokenDetails(address, chainId);
-    //         // logger.info()
-    //         console.log(fetchData);
-    //         return fetchData;
-    //     } catch (error) {
-    //         throw error
-    //     }
-    // },
-
-    tokenDetail: async (addresses) => {
+    tokenDetail: async (address) => {
         try {
-            console.log(addresses,'this is address')
-           const response=await Axios(
-                `https://deep-index.moralis.io/api/v2.2/erc20/metadata?chain=eth&addresses[0]=${addresses}`,
-                'get',
-                {},
-                {
-                    headers: {
-                        'X-API-Key': process.env.MORALIS_API_KEY,
-                    },
-                }
-            );
-            console.log(response.data,'this is response');
-            return {
-                name:response.data[0].name,
-                symbol:response.data[0].symbol,
-                contract_address:response.data[0].address,
-                image:response.data[0].logo,
-                decimals:response.data[0].decimals,
-                totalsupply:response.data[0].total_supply,
-                circulating_supply:response.data[0].circulating_supply,
-
+            let chainId;
+            if (address) {
+                const start = address.slice(0, 2)
+                start === '0x' ? (chainId = 8453) : null
             }
-            return response.data
+            console.log(chainId);
+            const fetchData = await getTokenDetails(address, chainId);
+            const holders= await getHolderCount(8453, address);
+            console.log(holders,'holders');
+            // logger.info()
+            return {...fetchData,holders:holders};
         } catch (error) {
             throw error
-
-        };
-
+        }
     },
+
+    // tokenDetail: async (addresses) => {
+    //     try {
+    //         console.log(addresses,'this is address')
+    //        const response=await Axios(
+    //             `https://deep-index.moralis.io/api/v2.2/erc20/metadata?chain=eth&addresses[0]=${addresses}`,
+    //             'get',
+    //             {},
+    //             {
+    //                 headers: {
+    //                     'X-API-Key': process.env.MORALIS_API_KEY,
+    //                 },
+    //             }
+    //         );
+    //       const Holder= await getHolderCount(8453, addresses);
+    //         console.log(response.data,'this is response');
+    //         return {
+    //             name:response.data[0].name,
+    //             symbol:response.data[0].symbol,
+    //             contract_address:response.data[0].address,
+    //             image:response.data[0].logo,
+    //             decimals:response.data[0].decimals,
+    //             totalsupply:response.data[0].total_supply,
+    //             circulating_supply:response.data[0].circulating_supply,
+    //             Holder
+
+    //         }
+    //         return response.data
+    //     } catch (error) {
+    //         throw error
+
+    //     };
+
+    // },
     tokenGraph: async ({ address, from, end }) => {
 
         try {
