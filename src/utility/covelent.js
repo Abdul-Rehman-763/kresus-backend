@@ -66,8 +66,14 @@ const TokenDetail = async (chainId, contract_address) => {
 
 }
 const getTokenDetails = async (contractAddress, chainId) => {
-  const api = `https://api.coingecko.com/api/v3/coins/eth/contract/${contractAddress}`;
-  const data = await axios.get(api);
+  const api = `https://api.coingecko.com/api/v3/coins/ethereum/contract/${contractAddress}`;
+  const data = await axios.get(api
+    // {
+    //   headers:{
+    //     'x-cg-pro-api-key':'CG-K88owpN9MwhKCu1uRuABLe8N'
+    //   }
+    // }
+  );
   const Holders = await getHolderCount(chainId, contractAddress);
   const newData = {
     name: data.data.name,
