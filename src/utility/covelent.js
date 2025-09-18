@@ -1,13 +1,21 @@
 const axios = require("axios");
 const { tokenDetail } = require("../services/chain");
+const Moralis = require("moralis")
 require('dotenv').config()
 const ethers = require('ethers')
 
 const getHolderCount = async (chainId, contractAddress) => {
-  const url = `https://api.covalenthq.com/v1/${1}/tokens/${contractAddress}/token_holders_v2/?key=${process.env.COVALENT_API_KEY}`;
-  const { data } = await axios.get(url);
-
-  return data.data.pagination.total_count; // number of holders
+  const url = `https://deep-index.moralis.io/api/v2.2/erc20/${contractAddress}/holders?chain=base`;
+  const { data } = await axios.get(url, {
+    headers: {
+      'accept': 'application/json',
+      'X-API-Key': process.env.MORALIS_API_KEY
+    }
+  });
+ if(data){
+  return data;
+ }
+  // return data.data.pagination.total_count; // number of holders
 }
 
 const totalsupply = async (contractAddress) => {
@@ -66,27 +74,33 @@ const TokenDetail = async (chainId, contract_address) => {
 
 }
 const getTokenDetails = async (contractAddress, chainId) => {
-  const api = `https://api.coingecko.com/api/v3/coins/ethereum/contract/${contractAddress}`;
-  const data = await axios.get(api
-    // {
-    //   headers:{
-    //     'x-cg-pro-api-key':'CG-K88owpN9MwhKCu1uRuABLe8N'
-    //   }
-    // }
-  );
-  const Holders = await getHolderCount(chainId, contractAddress);
-  const newData = {
-    name: data.data.name,
-    symbol: data.data.symbol,
-    contract_address: data.data.contract_address,
-    circulating_supply: data.data.market_data.circulating_supply,
-    total_supply: data.data.market_data.total_supply,
-    image: data.data.image.small,
-    maxSupply: data.data.market_data?.max_supply,
-    // Holders
+  try {
+    const url = `https://deep-index.moralis.io/api/v2.2/erc20/metadata?chain=base&addresses=${contractAddress}`
+    const response = await fetch(url, {
+      method: 'get',
+      headers: {
+        'X-API-Key': process.env.MORALIS_API_KEY
+      }
+    })
+    const data = await response.json()
+    return data;
+  } catch (e) {
+    console.error(e);
   }
+  // const Holders = await getHolderCount(chainId, contractAddress);
+  // console.log(data);
+  // const newData = {
+  //   name: data.data.name,
+  //   symbol: data.data.symbol,
+  //   contract_address: data.data. contract_address,
+  //   circulating_supply: data.data.market_data.circulating_supply,
+  //   total_supply: data.data.market_data.total_supply,
+  //   image: data.data.image.small,
+  //   maxSupply: data.data.market_data?.max_supply,
+  //   // Holders
+  // }
 
-  return newData
+  // return newData
 }
 
 
@@ -97,9 +111,9 @@ const tokenHistory = async (chainId, tokenAddress, DATE1, DATE2, currency = "USD
   const response = await fetch(`https://api.covalenthq.com/v1/pricing/historical_by_addresses_v2/${chainId}/USD/${tokenAddress}/?from=${DATE1}&to=${DATE2}&prices-at-asc=true`, options)
 
   try {
- 
-    const data=await response.json()
-    console.log('this is respone',data);
+
+    const data = await response.json()
+    console.log('this is respone', data);
     return data;
   } catch (error) {
     console.error(error);
@@ -107,4 +121,4 @@ const tokenHistory = async (chainId, tokenAddress, DATE1, DATE2, currency = "USD
 };
 
 
-module.exports = { totalsupply, TokenDetail, getTokenDetails ,tokenHistory,getHolderCount}
+module.exports = { totalsupply, TokenDetail, getTokenDetails, tokenHistory, getHolderCount }

@@ -2,15 +2,12 @@ const express = require('express');
 const dbConnect=require('./src/config/dbconnection')
 const cors=require('cors');
 const requestContext=require("./src/utility/requestContext")
-
-
 require('dotenv').config();
 const {seed}=require('./src/config/seeds/seed');
 const  route = require('./src/routers/user');
 const chain=require('./src/routers/chains')
 const {specs,sweggerUi}=require('./src/config/swagger');
-const { node } = require('./src/config/nodemailer');
-const logger=require("./src/utility/logger")
+const crons=require("./src/crons/popularTokens")
 
 const app=express();
 const allowedOrigins = [

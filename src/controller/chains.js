@@ -46,7 +46,8 @@ exports.papolarTokenList = async (req, res) => {
   try {
   
     ChainService.papolarTokenList(req).then(resp => {
-      return Response.Send.Raw(res, resp.code, resp.body);
+      // return Response.Send.Raw(res, resp.code, resp.body);
+      return res.json(resp)
     })
 
   } catch (error) {

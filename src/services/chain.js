@@ -3,14 +3,16 @@ const Chain = require('../module/chain')
 const wallet = require("../utility/wallet");
 const Moralis = require("moralis").default;
 const Axios = require('../utility/Axios')
-
+const { getTopTokenLinks } = require("../utility/scrapping_basescanTop_tokens")
 require('dotenv').config();
 const logger = require('../utility/logger')
-const { getTokenDetails, tokenHistory ,getHolderCount} = require('../utility/covelent')
+const { getTokenDetails, tokenHistory, getHolderCount } = require('../utility/covelent')
 Moralis.start({ apiKey: process.env.MORALIS_API_KEY });
-const popularTokenModule = require('../module/popularTokens');
+const TopTokenModel = require('../module/top_tokens');
 const { papolarTokenList } = require("../controller/chains");
-const { max } = require("lodash");
+const { getTopBaseTokenPrice } = require('../utility/moralis');
+const DB = require("../module/top_tokens");
+const { symbol } = require("joi");
 
 const types = {
     solana_ecosystem: 'solana-ecosystem',
@@ -61,41 +63,41 @@ module.exports = {
             return res.status(500).json(error);
         }
     },
-    papolarTokenList: async (req) => {
-        try {
-            async function getPriceMovers() {
-                const response = await Moralis.EvmApi.marketData.getTopERC20TokensByPriceMovers();
-                // console.log("Gainers:", response.raw.gainers);
-                // console.log("Losers:", response.raw.losers);
-                if (response) {
-                    await popularTokenModule.deleteMany({});
-                    const data = await popularTokenModule.create({ higher: response.raw.gainers, lower: response.raw.losers });
-                    await data.save();
+    // papolarTokenList: async (req) => {
+    //     try {
+    //         async function getPriceMovers() {
+    //             const response = await Moralis.EvmApi.marketData.getTopERC20TokensByPriceMovers();
+    //             // console.log("Gainers:", response.raw.gainers);
+    //             // console.log("Losers:", response.raw.losers);
+    //             if (response) {
+    //                 await popularTokenModule.deleteMany({});
+    //                 const data = await popularTokenModule.create({ higher: response.raw.gainers, lower: response.raw.losers });
+    //                 await data.save();
 
-                    return {
-                        code: 200, body: { heigher: response.raw.gainers, lower: response.raw.losers }
-                    }
-                }
+    //                 return {
+    //                     code: 200, body: { heigher: response.raw.gainers, lower: response.raw.losers }
+    //                 }
+    //             }
 
-            }
-            if (req.query.hardRefresh === "true") {
+    //         }
+    //         if (req.query.hardRefresh === "true") {
 
-                const { code, body } = await getPriceMovers();
-                return {
-                    code, body
-                }
-            }
-            const { higher, lower } = await popularTokenModule.findOne({});
+    //             const { code, body } = await getPriceMovers();
+    //             return {
+    //                 code, body
+    //             }
+    //         }
+    //         const { higher, lower } = await popularTokenModule.findOne({});
 
-            return {
-                code: 200, body: { higher, lower, data: "data from db" }
-            }
+    //         return {
+    //             code: 200, body: { higher, lower, data: "data from db" }
+    //         }
 
-        }
-        catch (error) {
-            throw error
-        }
-    },
+    //     }
+    //     catch (error) {
+    //         throw error
+    //     }
+    // },
 
     // papolarTokenList: async () => {
 
@@ -132,12 +134,29 @@ module.exports = {
             }
             console.log(chainId);
             const fetchData = await getTokenDetails(address, chainId);
-            const holders= await getHolderCount(8453, address);
-            console.log(holders,'holders');
+            const priceObject=await getTopBaseTokenPrice(address);
+            const holders = await getHolderCount(8453, address);
+            // console.log(holders, 'this is holder');
+            console.log(fetchData[0],'this fetch data');
+            // console.log(priceObject,'this is price object')
             // logger.info()
-            return {...fetchData,holders:holders};
+      
+            return {
+                name:fetchData[0].name,
+                address:fetchData[0].address,
+                symbol:fetchData[0].symbol,
+                logo:fetchData[0].logo,
+                maxSupply:fetchData[0].total_supply,
+                circulatingSupply:fetchData[0].circulating_supply,
+                usdPrice:priceObject.usdPrice,
+                usdPrice24hr:priceObject.usdPrice24hr,
+                usdePriceChange24hr:priceObject.usdPrice24hrUsdChange,
+                priceChangePercentChange:priceObject['24hrPercentChange'],
+                holders:holders.totalHolders
+        
+            }
         } catch (error) {
-            throw error
+            // throw error
         }
     },
 
@@ -181,6 +200,14 @@ module.exports = {
             return graphData
         } catch (error) {
             return error;
+        }
+    },
+    papolarTokenList: async () => {
+        try {
+            const tokenList=await DB.find();
+            return tokenList
+        } catch (error) {
+            throw(error)
         }
     }
 }
