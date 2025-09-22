@@ -51,9 +51,9 @@ const papolarTokenList = async () => {
     }
 }
 // papolarTokenList();
-cron.schedule('0 0 0 * * *', () => {
-    papolarTokenList();
-    console.log('running a task every day at midnight');
-});
+// cron.schedule('0 0 0 * * *', () => {
+//     papolarTokenList();
+//     console.log('running a task every day at midnight');
+// });
 
 

@@ -131,10 +131,12 @@ const tokenHistory = async (chainId, tokenAddress, DATE1, DATE2, currency = "USD
           }
         }
       )
+      console.log()
       return response.data.data.attributes;
       
     } catch (error) {
       console.log(error)
+      throw error
     }
   }
 
