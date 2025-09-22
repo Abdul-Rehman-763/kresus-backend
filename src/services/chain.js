@@ -148,7 +148,7 @@ module.exports = {
                 symbol:fetchData.symbol,
                 logo:fetchData.image_url,
                 maxSupply:fetchData.total_supply,
-                circulatingSupply:fetchData2[0].circulating_supply,
+                circulatingSupply:fetchData2[0]?.circulating_supply||fetchData2[0]?.circulatingSupply||null,
                 usdPrice:priceObject.usdPrice,
                 usdPrice24hr:priceObject.usdPrice24hr,
                 usdePriceChange24hr:priceObject.usdPrice24hrUsdChange,
