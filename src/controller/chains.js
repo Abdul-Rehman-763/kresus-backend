@@ -63,7 +63,8 @@ exports.tokenDetail = async (req, res) => {
       res.json(resp)
     })
   } catch (error) {
-    res.json(error);
+    
+    res.status(500).json({error});
   }
 }
 exports.tokenGraph = async (req, res) => {
