@@ -143,11 +143,11 @@ module.exports = {
             // logger.info()
     //   console.log('logo',fetchData[0])
             return {
-                name:fetchData.name,
-                address:fetchData.address,
-                symbol:fetchData.symbol,
-                logo:fetchData.image_url,
-                maxSupply:fetchData.total_supply,
+                name:fetchData?.name||null,
+                address:fetchData?.address||null,
+                symbol:fetchData?.symbol||null,
+                logo:fetchData?.image_url||null,
+                maxSupply:fetchData?.total_supply||null,
                 circulatingSupply:fetchData2[0]?.circulating_supply||fetchData2[0]?.circulatingSupply||null,
                 usdPrice:priceObject.usdPrice,
                 usdPrice24hr:priceObject.usdPrice24hr,
