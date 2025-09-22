@@ -6,7 +6,7 @@ const Axios = require('../utility/Axios')
 const { getTopTokenLinks } = require("../utility/scrapping_basescanTop_tokens")
 require('dotenv').config();
 const logger = require('../utility/logger')
-const { getTokenDetails, tokenHistory, getHolderCount } = require('../utility/covelent')
+const { getTokenDetails, tokenHistory, getHolderCount ,getTokenDetailsCoinGeecko} = require('../utility/covelent')
 Moralis.start({ apiKey: process.env.MORALIS_API_KEY });
 const TopTokenModel = require('../module/top_tokens');
 const { papolarTokenList } = require("../controller/chains");
@@ -133,21 +133,22 @@ module.exports = {
                 start === '0x' ? (chainId = 8453) : null
             }
             console.log(chainId);
-            const fetchData = await getTokenDetails(address, chainId);
+            const fetchData2 = await getTokenDetails(address, chainId);
+            const fetchData=await getTokenDetailsCoinGeecko(address);
             const priceObject=await getTopBaseTokenPrice(address);
             const holders = await getHolderCount(8453, address);
             // console.log(holders, 'this is holder');
-            console.log(fetchData[0],'this fetch data');
+            console.log(fetchData,'this fetch data');
             // console.log(priceObject,'this is price object')
             // logger.info()
-      
+    //   console.log('logo',fetchData[0])
             return {
-                name:fetchData[0].name,
-                address:fetchData[0].address,
-                symbol:fetchData[0].symbol,
-                logo:fetchData[0].logo,
-                maxSupply:fetchData[0].total_supply,
-                circulatingSupply:fetchData[0].circulating_supply,
+                name:fetchData.name,
+                address:fetchData.address,
+                symbol:fetchData.symbol,
+                logo:fetchData.image_url,
+                maxSupply:fetchData.total_supply,
+                circulatingSupply:fetchData2[0].circulating_supply,
                 usdPrice:priceObject.usdPrice,
                 usdPrice24hr:priceObject.usdPrice24hr,
                 usdePriceChange24hr:priceObject.usdPrice24hrUsdChange,

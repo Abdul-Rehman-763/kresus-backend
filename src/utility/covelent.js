@@ -87,6 +87,8 @@ const getTokenDetails = async (contractAddress, chainId) => {
   } catch (e) {
     console.error(e);
   }
+
+
   // const Holders = await getHolderCount(chainId, contractAddress);
   // console.log(data);
   // const newData = {
@@ -119,6 +121,22 @@ const tokenHistory = async (chainId, tokenAddress, DATE1, DATE2, currency = "USD
     console.error(error);
   }
 };
+  const getTokenDetailsCoinGeecko=async(address)=>{
+    try {
+      const url = `https://pro-api.coingecko.com/api/v3/onchain/networks/base/tokens/${address} `
+      const response = await axios.get(url,
+        {
+          headers:{
+            'x-cg-pro-api-key':process.env.COIN_GEECKO_API_KEY
+          }
+        }
+      )
+      return response.data.data.attributes;
+      
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
 
-module.exports = { totalsupply, TokenDetail, getTokenDetails, tokenHistory, getHolderCount }
+module.exports = { totalsupply, TokenDetail, getTokenDetails, tokenHistory, getHolderCount ,getTokenDetailsCoinGeecko}
